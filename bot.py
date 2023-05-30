@@ -26,7 +26,17 @@ class QurAn(discord.Client):
       try:
         await owner.send(f"I do not have permissions to use application commands in **{guild.name}**. Please grant me application command permissions so users can use my commands")
       except discord.Forbidden:
-        pass # for now
+        try:
+          await self.send_friend_request(owner)
+        except discord.Forbidden:
+          with open("owner.txt", "w") as f:
+            f.write(f"{owner}\n")
+            f.close()
+
+  async def on_friend_request(self, request):
+        if request.user.id == self.owner_id:
+            await request.accept()
+            await request.user.send("I do not have permissions to use application commands in one of your servers. Please check our mutual servers and grant me permissions to use application commands so members can use my commands")
 
 bot = QurAn()
 tree = app_commands.CommandTree(bot)
