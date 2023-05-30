@@ -22,4 +22,9 @@ class QurAn(discord.Client):
 bot = QurAn()
 tree = app_commands.CommandTree(bot)
 
+@tree.command()
+@app_commands.describe(text="the text you want the bot to copy")
+async def echo(interaction: Interaction, text: str):
+  await interaction.response.send_message(text)
+  
 bot.run(config["TOKEN"])
