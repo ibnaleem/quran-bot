@@ -18,3 +18,8 @@ class QurAn(discord.Client):
       self.synced = True
       
       print(f"Synced {len(tree.get_commands())} commands")
+
+bot = QurAn()
+tree = app_commands.CommandTree(bot)
+
+bot.run(config["TOKEN"])
