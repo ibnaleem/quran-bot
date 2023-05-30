@@ -4,6 +4,9 @@ from discord.ui import Button
 from discord import app_commands, Embed, Interaction
 from typing import Optional, List
 
+with open('config.json', 'r') as f:
+  config = json.load(f)
+
 class QurAn(discord.Client):
   def __init__(self):
     super().__init__(intents=discord.Intents.all(), owner_id=1110526906106904626)
