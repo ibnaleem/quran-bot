@@ -19,6 +19,15 @@ class QurAn(discord.Client):
       
       print(f"Synced {len(tree.get_commands())} commands")
 
+  async def on_guild_join(self, guild):
+    permissions = guild.me.guild_permissions
+    if not permissions.use_application_commands():
+      owner = guild.owner()
+      try:
+        await owner.send(f"I do not have permissions to use application commands in **{guild.name}**. Please grant me application command permissions so users can use my commands")
+      except discord.Forbidden:
+        pass # for now
+
 bot = QurAn()
 tree = app_commands.CommandTree(bot)
 
