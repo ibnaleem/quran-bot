@@ -155,3 +155,26 @@ class Chapters:
 
         else:
             print(f"The API is currently down. Response Code: {response.status_code}")
+
+    def get_arabic(self, name: str):
+        """Returns the Arabic translation of a simple or complex name as a string"""
+
+        if type(name) is not str:
+            raise TypeError("Name must be a string")
+
+        url = 'https://api.quran.com/api/v4/chapters?language=en'
+        response = requests.get(url)
+
+        if response.status_code == 200:
+
+            data = response.json()
+            dumped_data = json.dumps(data)
+
+            parsed_data = json.loads(dumped_data)
+
+            for chapter in parsed_data["chapters"]:
+                if chapter["name_simple"] or chapter["name_complex"] == name:
+                    return chapter["name_arabic"]
+
+        else:
+            print(f"The API is currently down. Response Code: {response.status_code}")
