@@ -103,7 +103,7 @@ class Chapters:
         else:
             print(f"The API is currently down. Response Code: {response.status_code}")
 
-    def all_madinah_complex():
+    def all_madinah_complex(self):
         """Returns a list of all chapters revealed in Mecca (complex notation)"""
 
         url = 'https://api.quran.com/api/v4/chapters?language=en'
@@ -124,6 +124,34 @@ class Chapters:
                     pass
 
             return name_complex
+
+        else:
+            print(f"The API is currently down. Response Code: {response.status_code}")
+
+    def get_translated_name(self, name: str):
+        """Returns the translation of a chapter name (simple or complex name) as a string"""
+
+        if type(name) is not str:
+            raise TypeError("Name must be a string")
+
+        url = 'https://api.quran.com/api/v4/chapters?language=en'
+        response = requests.get(url)
+
+        if response.status_code == 200:
+
+            data = response.json()
+            dumped_data = json.dumps(data)
+            parsed_data = json.loads(dumped_data)
+
+            name_translated = []
+            for chapter in parsed_data["chapters"]:
+                if chapter["name_simple"] == name or chapter["name_complex"] == name:
+                    ch = chapter["translated_name"]
+                    name_translated.append(ch["name"])
+                else:
+                    pass
+
+            return ''.join(name_translated)
 
         else:
             print(f"The API is currently down. Response Code: {response.status_code}")
