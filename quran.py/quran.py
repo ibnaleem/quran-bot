@@ -55,7 +55,7 @@ class Chapters:
         else:
             print(f"The API is currently down. Response Code: {response.status_code}")
 
-    def all_translated_names():
+    def all_translated_names(self):
         """Returns a list of all translated names of chapters in the QurAn"""
 
         url = 'https://api.quran.com/api/v4/chapters?language=en'
