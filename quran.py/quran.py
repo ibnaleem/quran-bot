@@ -32,3 +32,25 @@ class Chapters:
 
         else:
             print(f"The API is currently down. Response Code: {response.status_code}")
+
+    def all_arabic(self):
+        """Returns a list of all chapter names in the QurAn in Arabic"""
+
+        url = 'https://api.quran.com/api/v4/chapters?language=en'
+        response = requests.get(url)
+
+        if response.status_code == 200:
+
+            data = response.json()
+            dumped_data = json.dumps(data)
+
+            parsed_data = json.loads(dumped_data)
+
+            name_arabic = []
+            for chapter in parsed_data["chapters"]:
+                name_arabic.append(chapter["name_arabic"])
+
+            return name_arabic
+
+        else:
+            print(f"The API is currently down. Response Code: {response.status_code}")
