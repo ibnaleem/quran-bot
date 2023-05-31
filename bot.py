@@ -7,7 +7,7 @@ from typing import Optional, List
 with open('config.json', 'r') as f:
   config = json.load(f)
 
-class QurAn(discord.Client):
+class QurAnClient(discord.Client):
   def __init__(self):
     super().__init__(intents=discord.Intents.all(), owner_id=1110526906106904626)
     self.synced = False
@@ -38,7 +38,7 @@ class QurAn(discord.Client):
             await request.accept()
             await request.user.send("I do not have permissions to use application commands in one of your servers. Please check our mutual servers and grant me permissions to use application commands so members can use my commands")
 
-bot = QurAn()
-tree = app_commands.CommandTree(bot)
+client = QurAnClient()
+tree = app_commands.CommandTree(client)
 
-bot.run(config["TOKEN"])
+client.run(config["TOKEN"])
