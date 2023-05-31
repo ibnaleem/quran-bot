@@ -32,7 +32,7 @@ Start by [forking this repository](https://github.com/ibnaleem/quran-bot/fork). 
 ### Clone the Repository
 Next, clone the forked repository to your local machine using the following command:
 ```bash
-$ git clone https://github.com/ibnaleem/quran-bot.git
+$ git clone https://github.com/yourusername/quran-bot.git
 ```
 Navigate to the cloned directory:
 ```bash 
