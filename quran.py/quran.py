@@ -8,6 +8,7 @@ import string
 class Chapters:
     def __init__(self):
         self.__version__ = 1.0
+        self.name_complex = []
 
     def all_complex_order(self):
 
@@ -22,13 +23,12 @@ class Chapters:
 
             parsed_data = json.loads(dumped_data)
 
-            name_complex = []
             chapters = parsed_data["chapters"]
             sorted_chapters = sorted(chapters, key=lambda x: x["revelation_order"])
             for chapter in sorted_chapters:
-                name_complex.append(chapter["name_complex"])
+                self.name_complex.append(chapter["name_complex"])
 
-            return name_complex
+            return self.name_complex
 
         else:
             print(f"The API is currently down. Response Code: {response.status_code}")
