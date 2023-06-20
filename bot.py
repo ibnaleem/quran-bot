@@ -1,8 +1,31 @@
-import json, discord
+import json, discord, datetime
 from discord.ext import commands
 from discord.ui import Button
 from discord import app_commands, Embed, Interaction
 from typing import Optional, List
+from quran import chapters
+
+def join_words(words):
+    max_length = 4096
+    delimiter = "\n"
+    result = ""
+    current_length = 0
+
+    for word in words:
+        word_length = len(word) + len(delimiter)
+        
+        # Check if adding the current word exceeds the length limit
+        if current_length + word_length > max_length:
+            break
+        
+        result += word + delimiter
+        current_length += word_length
+
+    # Remove the trailing delimiter
+    result = result.rstrip(delimiter)
+
+    return result
+
 
 with open('config.json', 'r') as f:
   config = json.load(f)
@@ -40,5 +63,18 @@ class QurAnClient(discord.Client):
 
 client = QurAnClient()
 tree = app_commands.CommandTree(client)
+
+@tree.command()
+@tree.app_commands.description("Extract all verses revealed in Madinah (complex or simple notation)")
+@tree.app_commands.describe(simplified="Example: Al-Fatihah", complex="Example: Al-Fātiĥah", order="Do you want them in the order they were revealed?")
+async def madinah(interaction: Interaction, simplified: Optional[bool]=None, complex: Optional[bool]=None, order: Optional[bool]=None):
+    if simplified and complex and order is None:
+        chp = chapters.Chapters()
+
+        embed = Embed(title="All Verses Revealed in Madinah - Ordered", description=join_words(chp.all_complex_order()))
+        embed.set_footer(text="/madinah", icon_url=client.avatar_url)
+        embed.timestamp = datetime.datetime.utcnow()
+
+        await interaction.response.send_message(embed=embed, interaction.user.mention)
 
 client.run(config["TOKEN"])
